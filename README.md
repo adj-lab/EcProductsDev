@@ -26,7 +26,7 @@
 
 ## ER 図
 
-<!-- 画像添付 -->
+[画像添付](https://github.com/adj-lab/EcProductsDev/blob/feature/ec-products-r001/EcProducts_r001_er.png)
 
 ## URL
 
