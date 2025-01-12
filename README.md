@@ -30,5 +30,5 @@
 
 ## URL
 
-- 開発環境：http://localhost:88/
+- 開発環境：http://localhost:88/products
 - phpMyAdmin：http://localhost:8888/
