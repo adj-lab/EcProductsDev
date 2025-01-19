@@ -8,7 +8,7 @@ use App\Models\ProductRegist;
 class ProductRegistController extends Controller
 {
     //商品登録画面表示
-    public function regist()
+    public function regist(Request $request)
     {
         return view('product_regist');
     }

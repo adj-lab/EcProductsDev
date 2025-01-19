@@ -19,21 +19,9 @@ use App\Http\Controllers\ProductRegistController;
 //接続許可
 //商品一覧画面
 Route::get('/products', [ProductController::class, 'index']);
+//商品登録画面表示
+Route::get('/products/register', [ProductRegistController::class, 'regist'])->name('product_regist');
 //商品詳細画面
-Route::get('products/{productId}', [ProductDetailController::class, 'detail'])->name('product_detail');
-
+Route::get('/products/{productId}', [ProductDetailController::class, 'detail'])->name('product_detail');
 //商品更新画面
- ///products/{productId}/update
-
- //商品登録画面表示
-Route::get('products/register', [ProductRegistController::class, 'regist'])->name('product_regist');
-
 //商品登録実行
-
-
- //商品検索
-
- //products/search
-
- //商品削除
-///products/{:productId}/delete

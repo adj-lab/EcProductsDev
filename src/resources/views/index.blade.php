@@ -1,125 +1,57 @@
-@extends('layouts.app')
-@section('css')
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>商品一覧ページ</title>
+  <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
   <link rel="stylesheet" href="{{ asset('css/index.css') }}" />
-@endsection
-@section('content')
-
+</head>
 <body>
-  <header class="header">
-    <div class="header__inner">
-      <a class="header__logo">
-        mogitate
-      </a>
-    </div>
-  </header>
-
-  <main>
-    <div class="inquiry-form__content">
-      <div class="inquiry-form__heading">
-        <h2>商品一覧</h2>
-      </div>
-        <div class="form__group">
-          <div class="form__group-title">
-            <span class="form__label--item"><検索用テキストボックス></span>
-          </div>
-          <div class="form__group-content">
-            <div class="form__input--text">
-              <input type="text" name="product_name" placeholder="商品名で検索" />
-              <div class="form__error">
-                <!--バリデーション実行結果-->
-                @error('product_name')
-                {{ $message }}
-                @enderror
-            </div>
-        </div>  
-    </div>
-</div>
-
-        <div class="form__group">
-          <div class="form__group-title">
-            <span class="form__label--item">< 検索ボタン ></span>
-          </div>
-          <div class="form__group-content">
-            <div class="form__error">
-                <!--バリデーション実行結果-->
-                @error('email')
-                {{ $message }}
-                @enderror
-            </div>
-          </div>
-        </div>
-
-        <div class="form__group">
-          <div class="form__group-title">
-            <span class="form__label--item">< 価格順で表示 ></span>
-          </div>
-          <div class="form__group-content">
-            <div class="form__input--text">
-                <input type="text" name="" placeholder="" />
-            </div>
-            <div class="form__error">
-            <!--バリデーション実行結果-->
-                @error('tel_first')
-                {{ $message }}
-                @enderror
-              </div>
-          </div>
-        </div>
-
-        <div class="form__group">
-          <div class="form__group-title">
-            <span class="form__label--item">応用機能：価格順で表示</span>
-          </div>
-          <div class="form__group-content">
-            <div class="form__input--select">
-
-           <option disabled selected>価格で並べ替え</option>
+    <div class="all-contents">
+        <div class="left-contents">
+          <h1>商品一覧</h1>
+          <!-- 商品一覧画面：商品検索実行（POST)リクエスト-->
+            <form action="/products/search" method = "POST">
+            @csrf
+              <input type="text" name="keyword" class="keyword" placeholder="商品名で検索">
+              <button type="submit" class="submit-button">検索</button>
+              <!-- 応用機能：並び替え -->
+              <label class="select-label">価格順で表示</label>
+              <select class="select" name="sort" id="sort">
+                <option value="">価格で並び替え</option>
+                <option value="high_price">高い順に表示</option>
+                <option value="low_price">低い順に表示</option>
               </select>
-            </div>
-            <div class="form__error">
-                <!--バリデーション実行結果-->
-                @error('inquiry_type')
-                {{ $message }}
-                @enderror
-            </div>
-          </div>
-        </div>
-        <form class="form" action="products/register" method="GET">
-          @csrf
-            <div class="form__button">
-              <button class="form__button-submit" type="submit" >+商品を追加</button>
-            </div>
-        </form>
-
-        <div class="form__group">
-          <div class="form__group-title">
-            <span class="form__label--item">< 画像：GridLayoutなど ></span>
-          </div>
-          <div class="form__products-images">
-            @foreach ($products as $product)
-            <a href="{{ route('product_detail', $product->id)}}">
-              <img src="{{asset('storage/' . $product->image)}}" alt="{{ $product->name }}">
+          </form>
+          @if(@isset($sort)&& $sort != "")
+              <div class="sort_contents">
+                <p class="searched_data">{{$sort}}</p>
+                <div class="close-content">
+                  <a href="/products">
+                    <img src="{{ asset('/images/close-icon.png') }}"  alt="閉じるアイコン" class="img-close-icon"/>
             </a>
-            @endforeach
-        </div>
-          <!--バリデーション実行結果-->
-                @error('detail')
-                {{ $message }}
-                @enderror
-              </div>
           </div>
-            </div>
-            <div class="form__nation">
-                <ul>
-                    <li><a href="page/1">1</li>
-                    <li><a href="page/2">2</li>
-                    <li><a href="page/3">3</li>
-                    <li><a href="page/4">4</li>
-                </ul>
-            </div>
         </div>
+        @endif
       </div>
-  </main>
+    <!-- 商品追加：商品を追加ボタン押下で商品登録画面へ遷移 -->
+      <div class="right-contents">
+          <p class="message">{{session('message')}}</p>
+              <button class="add-button" onclick="location.href='{{ route('product_regist') }}'"><span>+</span>商品を追加</button>
+            <div class="product-contents">
+              @foreach ($products as $product)
+                <div class="product-content">
+                  <a href="{{route('product_detail', $product->id)}}" class="product-link"></a>
+                  <img src="{{asset('storage/' . $product->image)}}" alt="商品画像" class="img-content" />
+                  <div class="detail-content">
+                    <p>{{$product->name}}</p>
+                    <p>{{$product->price}}</p>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+      </div>
 </body>
-
 </html>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductRegist extends Model
 {
-    use HasFactory;
+    //use HasFactory;
     //productsテーブルへの接続許可
-    protected $table = 'products';
+    //protected $table = 'products';
 }
